@@ -9,8 +9,8 @@ import ncu.im3069.demo.util.DBMgr;
 // TODO: Auto-generated Javadoc
 /**
  * <p>
- * The Class MemberHelper<br>
- * MemberHelper類別（class）主要管理所有與Member相關與資料庫之方法（method）
+ * The Class CoachHelper<br>
+ * CoachHelper類別（class）主要管理所有與Member相關與資料庫之方法（method）
  * </p>
  * 
  * @author IPLab
@@ -18,18 +18,18 @@ import ncu.im3069.demo.util.DBMgr;
  * @since 1.0.0
  */
 
-public class StudentHelper {
+public class CoachHelper {
     
     /**
-     * 實例化（Instantiates）一個新的（new）MemberHelper物件<br>
+     * 實例化（Instantiates）一個新的（new）CoachHelper物件<br>
      * 採用Singleton不需要透過new
      */
-    private StudentHelper() {
+    private CoachHelper() {
         
     }
     
-    /** 靜態變數，儲存MemberHelper物件 */
-    private static StudentHelper sh;
+    /** 靜態變數，儲存CoachHelper物件 */
+    private static CoachHelper ch;
     
     /** 儲存JDBC資料庫連線 */
     private Connection conn = null;
@@ -39,21 +39,21 @@ public class StudentHelper {
     
     /**
      * 靜態方法<br>
-     * 實作Singleton（單例模式），僅允許建立一個StudentHelper物件
+     * 實作Singleton（單例模式），僅允許建立一個CoachHelper物件
      *
-     * @return the helper 回傳StudentHelper物件
+     * @return the helper 回傳CoachHelper物件
      */
-    public static StudentHelper getHelper() {
-        /** Singleton檢查是否已經有StudentHelper物件，若無則new一個，若有則直接回傳 */
-        if(sh == null) sh = new StudentHelper();
+    public static CoachHelper getHelper() {
+        /** Singleton檢查是否已經有CoachHelper物件，若無則new一個，若有則直接回傳 */
+        if(ch == null) ch = new CoachHelper();
         
-        return sh;
+        return ch;
     }
     
     /**
-     * 透過學生編號（ID）刪除學生
+     * 透過教練編號（ID）刪除教練
      *
-     * @param id 學生編號
+     * @param id 教練編號
      * @return the JSONObject 回傳SQL執行結果
      */
     public JSONObject deleteByID(int id) {
@@ -71,7 +71,7 @@ public class StudentHelper {
             conn = DBMgr.getConnection();
             
             /** SQL指令 */
-            String sql = "UPDATE `sa_sharesport`.`students` SET `status` = '1'  WHERE `id` = ? LIMIT 1";
+            String sql = "UPDATE `sa_sharesport`.`coaches` SET `status` = '1'  WHERE `id` = ? LIMIT 1";
             
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
@@ -109,14 +109,14 @@ public class StudentHelper {
     }
     
     /**
-     * 取回所有學生資料
+     * 取回所有教練資料
      *
      * @return the JSONObject 回傳SQL執行結果與自資料庫取回之所有資料
      */
     public JSONObject getAll() {
-        /** 新建一個 Student 物件之 s 變數，用於紀錄每一位查詢回之學生資料 */
-        Student s = null;
-        /** 用於儲存所有檢索回之學生，以JSONArray方式儲存 */
+        /** 新建一個 Coach 物件之 c 變數，用於紀錄每一位查詢回之教練資料 */
+        Coach c = null;
+        /** 用於儲存所有檢索回之教練，以JSONArray方式儲存 */
         JSONArray jsa = new JSONArray();
         /** 記錄實際執行之SQL指令 */
         String exexcute_sql = "";
@@ -131,7 +131,7 @@ public class StudentHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "SELECT * FROM `sa_sharesport`.`students`";
+            String sql = "SELECT * FROM `sa_sharesport`.`coaches`";
             
             /** 將參數回填至SQL指令當中，若無則不用只需要執行 prepareStatement */
             pres = conn.prepareStatement(sql);
@@ -148,20 +148,22 @@ public class StudentHelper {
                 row += 1;
                 
                 /** 將 ResultSet 之資料取出 */
-                int student_id = rs.getInt("id");
+                int coach_id = rs.getInt("id");
                 String name = rs.getString("name");
                 String email = rs.getString("email");
                 String password = rs.getString("password");
                 String sex = rs.getString("sex");
                 String image = rs.getString("image");
+                String information = rs.getString("information");
+                int followers_count = rs.getInt("followers_count");
                 Timestamp modified = rs.getTimestamp("modified");
                 Timestamp created = rs.getTimestamp("created");
                 int status = rs.getInt("status");
                 
-                /** 將每一筆學生資料產生一名新Student物件 */
-                s = new Student(student_id,email, password,name,sex,image,modified,created);
-                /** 取出該名學生之資料並封裝至 JSONsonArray 內 */
-                jsa.put(s.getData());
+                /** 將每一筆教練資料產生一名新Coach物件 */
+                c = new Coach(coach_id,email, password,name,sex,image,information, followers_count, modified,created, status);
+                /** 取出該名教練之資料並封裝至 JSONsonArray 內 */
+                jsa.put(c.getData());
             }
 
         } catch (SQLException e) {
@@ -180,7 +182,7 @@ public class StudentHelper {
         /** 紀錄程式執行時間 */
         long duration = (end_time - start_time);
         
-        /** 將SQL指令、花費時間、影響行數與所有學生資料之JSONArray，封裝成JSONObject回傳 */
+        /** 將SQL指令、花費時間、影響行數與所有教練資料之JSONArray，封裝成JSONObject回傳 */
         JSONObject response = new JSONObject();
         response.put("sql", exexcute_sql);
         response.put("row", row);
@@ -191,15 +193,15 @@ public class StudentHelper {
     }
     
     /**
-     * 透過學生編號（ID）取得學生資料
+     * 透過教練編號（ID）取得教練資料
      *
-     * @param id 學生編號
-     * @return the JSON object 回傳SQL執行結果與該學生編號之學生資料
+     * @param id 教練編號
+     * @return the JSON object 回傳SQL執行結果與該教練編號之教練資料
      */
     public JSONObject getByID(String id) {
-        /** 新建一個 Student 物件之 s 變數，用於紀錄每一位查詢回之學生資料 */
-        Student s = null;
-        /** 用於儲存所有檢索回之學生，以JSONArray方式儲存 */
+        /** 新建一個 Coach 物件之 c 變數，用於紀錄每一位查詢回之教練資料 */
+    	Coach c = null;
+        /** 用於儲存所有檢索回之教練，以JSONArray方式儲存 */
         JSONArray jsa = new JSONArray();
         /** 記錄實際執行之SQL指令 */
         String exexcute_sql = "";
@@ -214,7 +216,7 @@ public class StudentHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "SELECT * FROM `sa_sharesport`.`students` WHERE `id` = ? LIMIT 1";
+            String sql = "SELECT * FROM `sa_sharesport`.`coaches` WHERE `id` = ? LIMIT 1";
             
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
@@ -227,26 +229,28 @@ public class StudentHelper {
             System.out.println(exexcute_sql);
             
             /** 透過 while 迴圈移動pointer，取得每一筆回傳資料 */
-            /** 正確來說資料庫只會有一筆該學生編號之資料，因此其實可以不用使用 while 迴圈 */
+            /** 正確來說資料庫只會有一筆該教練編號之資料，因此其實可以不用使用 while 迴圈 */
             while(rs.next()) {
                 /** 每執行一次迴圈表示有一筆資料 */
                 row += 1;
                 
                 /** 將 ResultSet 之資料取出 */
-                int student_id = rs.getInt("id");
+                int coach_id = rs.getInt("id");
                 String name = rs.getString("name");
                 String email = rs.getString("email");
                 String password = rs.getString("password");
                 String sex = rs.getString("sex");
                 String image = rs.getString("image");
+                String informaton = rs.getString("information");
+                int followers_count = rs.getInt("followers_count");
                 Timestamp modified = rs.getTimestamp("modified");
                 Timestamp created = rs.getTimestamp("created");
                 int status = rs.getInt("status");
                 
-                /** 將每一筆學生資料產生一名新Member物件 */
-                s = new Student(student_id,email, password,name,sex,image,modified,created);
-                /** 取出該名學生之資料並封裝至 JSONsonArray 內 */
-                jsa.put(s.getData());
+                /** 將每一筆教練資料產生一名新Coach物件 */
+                c = new Coach(coach_id,email, password,name,sex,image,informaton, followers_count, modified,created, status);
+                /** 取出該名教練之資料並封裝至 JSONsonArray 內 */
+                jsa.put(c.getData());
             }
             
         } catch (SQLException e) {
@@ -265,7 +269,7 @@ public class StudentHelper {
         /** 紀錄程式執行時間 */
         long duration = (end_time - start_time);
         
-        /** 將SQL指令、花費時間、影響行數與所有學生資料之JSONArray，封裝成JSONObject回傳 */
+        /** 將SQL指令、花費時間、影響行數與所有教練資料之JSONArray，封裝成JSONObject回傳 */
         JSONObject response = new JSONObject();
         response.put("sql", exexcute_sql);
         response.put("row", row);
@@ -276,12 +280,12 @@ public class StudentHelper {
     } 
     
     /**
-     * 檢查該名學生之電子郵件信箱是否重複註冊
+     * 檢查該名教練之電子郵件信箱是否重複註冊
      *
-     * @param s 一名學生之Student物件
+     * @param c 一名教練之Coach物件
      * @return boolean 若重複註冊回傳False，若該信箱不存在則回傳True
      */
-    public boolean checkDuplicate(Student s){
+    public boolean checkDuplicate(Coach c){
         /** 紀錄SQL總行數，若為「-1」代表資料庫檢索尚未完成 */
         int row = -1;
         /** 儲存JDBC檢索資料庫後回傳之結果，以 pointer 方式移動到下一筆資料 */
@@ -291,10 +295,10 @@ public class StudentHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "SELECT count(*) FROM `sa_sharesport`.`students` WHERE `email` = ?";
+            String sql = "SELECT count(*) FROM `sa_sharesport`.`coaches` WHERE `email` = ?";
             
             /** 取得所需之參數 */
-            String email = s.getEmail();
+            String email = c.getEmail();
             
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
@@ -326,12 +330,12 @@ public class StudentHelper {
     }
     
     /**
-     * 建立該名學生至資料庫
+     * 建立該名教練至資料庫
      *
-     * @param s 一名學生之Member物件
+     * @param c 一名教練之coach物件
      * @return the JSON object 回傳SQL指令執行之結果
      */
-    public JSONObject create(Student s) {
+    public JSONObject create(Coach c) {
         /** 記錄實際執行之SQL指令 */
         String exexcute_sql = "";
         /** 紀錄程式開始執行時間 */
@@ -343,14 +347,14 @@ public class StudentHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "INSERT INTO `sa_sharesport`.`students`(`name`, `email`, `password`,`sex`, `modified`, `created``)"
+            String sql = "INSERT INTO `sa_sharesport`.`coaches`(`name`, `email`, `password`,`sex`, `modified`, `created``)"
                     + " VALUES(?, ?, ?, ?, ?, ?)";
             
             /** 取得所需之參數 */
-            String name = s.getName();
-            String email = s.getEmail();
-            String password = s.getPassword();
-            String sex = s.getSex();
+            String name = c.getName();
+            String email = c.getEmail();
+            String password = c.getPassword();
+            String sex = c.getSex();
             
     
             /** 將參數回填至SQL指令當中 */
@@ -395,12 +399,12 @@ public class StudentHelper {
     }
     
     /**
-     * 更新一名學生之學生資料
+     * 更新一名教練之教練資料
      *
-     * @param s 一名學生之Student物件
+     * @param c 一名教練之Coach物件
      * @return the JSONObject 回傳SQL指令執行結果與執行之資料
      */
-    public JSONObject update(Student s) {
+    public JSONObject update(Coach c) {
         /** 紀錄回傳之資料 */
         JSONArray jsa = new JSONArray();
         /** 記錄實際執行之SQL指令 */
@@ -414,14 +418,15 @@ public class StudentHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "Update `sa_sharesport`.`students` SET `name` = ? ,`password` = ? ,`sex` = ?, `email` = ?,`image` = ?,`modified` = ? WHERE `id` = ?";
+            String sql = "Update `sa_sharesport`.`coaches` SET `name` = ? ,`password` = ? ,`sex` = ?, `email` = ?,`image` = ?,`information` = ?, `modified` = ? WHERE `id` = ?";
             /** 取得所需之參數 */
-            String name = s.getName();
-            String email = s.getEmail();
-            String password = s.getPassword();
-            String sex = s.getSex();
-            String image = s.getImg();
-            int id = s.getID();
+            String name = c.getName();
+            String email = c.getEmail();
+            String password = c.getPassword();
+            String sex = c.getSex();
+            String image = c.getImg();
+            String information = c.getInformation();
+            int id = c.getID();
             
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
@@ -430,8 +435,9 @@ public class StudentHelper {
             pres.setString(3, sex);
             pres.setString(4, email);
             pres.setString(5, image);
-            pres.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
-            pres.setInt(7, id);
+            pres.setString(6, information);
+            pres.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
+            pres.setInt(8, id);
             /** 執行更新之SQL指令並記錄影響之行數 */
             row = pres.executeUpdate();
 
