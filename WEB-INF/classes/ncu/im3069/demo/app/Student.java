@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 // TODO: Auto-generated Javadoc
 /**
  * <p>
- * The Class Member
+ * The Class Student
  * Member類別（class）具有學生所需要之屬性與方法，並且儲存與學生相關之商業判斷邏輯<br>
  * </p>
  * 
@@ -44,6 +44,7 @@ public class Student {
     /** status，學生之狀態 */
     private int status;
     
+    /** image，學生之圖片 */
     private String image=null;
     
     /** sh，StudentHelper之物件與Student相關之資料庫方法（Sigleton） */
@@ -100,12 +101,16 @@ public class Student {
      * @param login_times 更新時間的分鐘數
      * @param status the 學生之組別
      */
-    public Student(int id, String email, String password, String name, String sex,String image) {
+    public Student(int id, String email, String password, String name, String sex,String image,Timestamp modified,Timestamp created,int status) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.name = name;
-        this.image=image;
+        this.image = image;
+        this.sex = sex;
+        this.modified = modified;
+        this.created = created;
+        this.status = status;
     }
     
     /**
