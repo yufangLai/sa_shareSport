@@ -154,12 +154,10 @@ public class StudentHelper {
                 String password = rs.getString("password");
                 String sex = rs.getString("sex");
                 String image = rs.getString("image");
-                Timestamp modified = rs.getTimestamp("modified");
-                Timestamp created = rs.getTimestamp("created");
                 int status = rs.getInt("status");
                 
                 /** 將每一筆學生資料產生一名新Student物件 */
-                s = new Student(student_id,email, password,name,sex,image,modified,created);
+                s = new Student(student_id, email, password, name, sex, image, status);
                 /** 取出該名學生之資料並封裝至 JSONsonArray 內 */
                 jsa.put(s.getData());
             }
@@ -244,7 +242,7 @@ public class StudentHelper {
                 int status = rs.getInt("status");
                 
                 /** 將每一筆學生資料產生一名新Member物件 */
-                s = new Student(student_id,email, password,name,sex,image,modified,created);
+                s = new Student(student_id,email, password,name,sex,image,status);
                 /** 取出該名學生之資料並封裝至 JSONsonArray 內 */
                 jsa.put(s.getData());
             }
