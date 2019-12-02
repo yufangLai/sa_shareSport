@@ -78,14 +78,13 @@ public class Student {
      * @param password 學生密碼
      * @param name 學生姓名
      */
-    public Student(int id, String email, String password, String name, String sex,String image,Timestamp modified, Timestamp created) {
+    public Student(int id, String email, String password, String name, String sex,String image) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.name = name;
         this.sex = sex;
         this.image = image;
-        this.created = created;
         this.modified = Timestamp.valueOf(LocalDateTime.now());
      
     }
@@ -101,15 +100,13 @@ public class Student {
      * @param login_times 更新時間的分鐘數
      * @param status the 學生之組別
      */
-    public Student(int id, String email, String password, String name, String sex,String image,Timestamp modified,Timestamp created,int status) {
+    public Student(int id, String email, String password, String name, String sex,String image,int status) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.name = name;
         this.image = image;
         this.sex = sex;
-        this.modified = modified;
-        this.created = created;
         this.status = status;
     }
     

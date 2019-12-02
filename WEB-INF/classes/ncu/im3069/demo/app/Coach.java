@@ -86,7 +86,7 @@ public class Coach {
      * @param password 教練密碼
      * @param name 教練姓名
      */
-    public Coach(int id, String email, String password, String name, String sex,String image,String information,Timestamp modified, Timestamp created) {
+    public Coach(int id, String email, String password, String name, String sex,String image,String information) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -94,7 +94,6 @@ public class Coach {
         this.sex = sex;
         this.image = image;
         this.information = information;
-        this.created = created;
         this.modified = Timestamp.valueOf(LocalDateTime.now());
      
     }
@@ -110,7 +109,7 @@ public class Coach {
      * @param login_times 更新時間的分鐘數
      * @param status the 教練之組別
      */
-    public Coach(int id, String email, String password, String name, String sex,String image,String information,int followers_count, Timestamp modified, Timestamp created,int status) {
+    public Coach(int id, String email, String password, String name, String sex,String image,String information,int followers_count,int status) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -119,8 +118,6 @@ public class Coach {
         this.sex = sex;
         this.information = information;
         this.followers_count = followers_count;
-        this.modified = modified;
-        this.created = created;
         this.status = status;
     }
     
