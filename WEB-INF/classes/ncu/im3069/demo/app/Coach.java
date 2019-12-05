@@ -120,7 +120,17 @@ public class Coach {
         this.followers_count = followers_count;
         this.status = status;
     }
-    
+    /**
+     * 實例化（Instantiates）一個新的（new）Coach物件<br>
+     * 採用多載（overload）方法進行，此建構子用於查詢教練資料時，將每一筆資料新增為一個教練物件
+     *
+     * @param id 教練編號
+     * @param name 教練姓名
+     */
+    public Coach(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
     /**
      * 取得教練之編號
      *

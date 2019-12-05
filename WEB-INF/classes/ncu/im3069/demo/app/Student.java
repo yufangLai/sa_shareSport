@@ -109,7 +109,17 @@ public class Student {
         this.sex = sex;
         this.status = status;
     }
-    
+    /**
+     * 實例化（Instantiates）一個新的（new）Member物件<br>
+     * 採用多載（overload）方法進行，此建構子用於查詢學生資料時，將每一筆資料新增為一個學生物件
+     *
+     * @param id 學生編號
+     * @param name 學生姓名
+     */
+    public Student(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
     /**
      * 取得學生之編號
      *
@@ -118,7 +128,7 @@ public class Student {
     public int getID() {
         return this.id;
     }
-
+    
     /**
      * 取得學生之電子郵件信箱
      *
