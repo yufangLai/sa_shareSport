@@ -190,7 +190,7 @@ public class Coach {
     /**
      * 取得教練之照片
      *
-     * @return the status 回傳教練狀態
+     * @return the image 回傳教練狀態
      */
     public String getImg() {
     	return this.image;
@@ -198,7 +198,7 @@ public class Coach {
     /**
      * 取得教練之被追蹤人數
      *
-     * @return the status 回傳教練狀態
+     * @return the followersCount 回傳教練狀態
      */
     public int getFollowers() {
     	return this.followers_count;
