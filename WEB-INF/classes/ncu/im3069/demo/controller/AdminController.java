@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 import javax.servlet.*;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import org.json.*;
 import ncu.im3069.demo.app.Admin;
@@ -22,7 +23,7 @@ import ncu.im3069.tools.JsonReader;
  * @version 1.0.0
  * @since 1.0.0
  */
-
+@WebServlet("/api/admin.do")
 public class AdminController extends HttpServlet {
     
     /** The Constant serialVersionUID. */
