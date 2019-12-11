@@ -41,14 +41,6 @@ public class Follow{
         this.coachName = coah.getNameByID(id);
         return coachName;
     }
-
-    public void follow() {
-
-    }
-    public void unfollow() {
-
-    }
-
     /**
      * 取得該名教練所有資料
      *
