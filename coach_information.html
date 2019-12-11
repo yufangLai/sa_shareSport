@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>教練資訊</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" href="coach_information.css">
+
+  <style>
+  	* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin-top: 2px;
+    margin-bottom: 2px;
+    margin-left: 27px;
+    margin-right: 27px;
+
+    padding: 0px;
+}
+
+.nav {
+    font-size: 20px;
+    margin-bottom: 25px;
+}
+
+.card {
+    margin-bottom: 33px;
+    margin-left: 55px;
+}
+
+.course {
+    display: inline-block;
+    margin-top: 10px;
+    margin-right: 55px;
+    margin-left: 55px;
+}
+
+.cousearea {
+    margin-top: 50px;
+
+}
+    
+  </style>
+
+</head>
+
+<body>
+	<nav class="nav" style="background-color: #e3f2fd;">
+        <a class="navbar-brand" href="#">shareSport</a>
+        <ul class="nav justify-content-end">
+            <li class="nav-item">
+                <a class="nav-link active" href="#">首頁</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="#">瀏覽教練</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="#">瀏覽教練</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="#">個人專區</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="#">管理介面</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" id="sign" href="#">登入</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="#">註冊</a>
+            </li>
+        </ul>
+
+    </nav>
+
+    <div class="card mb-3" id="coach_name" style="max-width: 540px;">
+        <div class="row no-gutters">
+            <div class="col-md-4">
+                <img src="https://img.ltn.com.tw/Upload/partner/page/2019/09/14/190914-4886-01-WvNZA.jpg"
+                    class="card-img" alt="...">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h2 class="card-title">教練名稱</h2>
+                    <p class="card-text">
+                        教練簡介
+                    </p>
+                    <button type="button" class="btn btn-outline-primary" id="followBtn">追蹤</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="cousearea">
+        <div class="card course" style="width: 13rem;">
+            <img src="https://i1.kknews.cc/SIG=1f7b232/39o40001pr9sp48r151q.jpg" width="13rem" height="160rem"
+                class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">教程名稱</h5>
+                <a href="#" class="btn btn-primary">查看教程</a>
+            </div>
+        </div>
+
+        <div class="card course" style="width: 13rem;">
+            <img src="https://i1.kknews.cc/SIG=1f7b232/39o40001pr9sp48r151q.jpg" width="13rem" height="160rem"
+                class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">教程名稱</h5>
+                <a href="#" class="btn btn-primary">查看教程</a>
+            </div>
+        </div>
+
+        <div class="card course" style="width: 13rem;">
+            <img src="https://i1.kknews.cc/SIG=1f7b232/39o40001pr9sp48r151q.jpg" width="13rem" height="160rem"
+                class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">教程名稱</h5>
+                <a href="#" class="btn btn-primary">查看教程</a>
+            </div>
+        </div>
+
+        <div class="card course" style="width: 13rem;">
+            <img src="https://i1.kknews.cc/SIG=1f7b232/39o40001pr9sp48r151q.jpg" width="13rem" height="160rem"
+                class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">教程名稱</h5>
+                <a href="#" class="btn btn-primary">查看教程</a>
+            </div>
+        </div>
+
+        <div class="card course" style="width: 13rem;">
+            <img src="https://i1.kknews.cc/SIG=1f7b232/39o40001pr9sp48r151q.jpg" width="13rem" height="160rem"
+                class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">教程名稱</h5>
+                <a href="#" class="btn btn-primary">查看教程</a>
+            </div>
+        </div>
+
+        <div class="card course" style="width: 13rem;">
+            <img src="https://i1.kknews.cc/SIG=1f7b232/39o40001pr9sp48r151q.jpg" width="13rem" height="160rem"
+                class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">教程名稱</h5>
+                <a href="#" class="btn btn-primary">查看教程</a>
+            </div>
+        </div>
+
+        <div class="card course" style="width: 13rem;">
+            <img src="https://i1.kknews.cc/SIG=1f7b232/39o40001pr9sp48r151q.jpg" width="13rem" height="160rem"
+                class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">教程名稱</h5>
+                <a href="#" class="btn btn-primary">查看教程</a>
+            </div>
+        </div>
+
+    </section>
+	
+	
+  <script>   
+//登入登出鈕變換i=0時按鈕顯示登入
+  var i = 0;
+
+  $("#sign").click(function () {
+
+      if (i == 0) {
+          document.getElementById("sign").innerHTML = "登出";
+          i = 1;
+      } else {
+          document.getElementById("sign").innerHTML = "登入";
+          i = 0;
+      }
+
+  });
+
+  //追蹤、取消追蹤鈕變換，i=0時按鈕顯示追蹤
+  var j = 0;
+
+  $("#followBtn").click(function () {
+
+      if (j == 0) {
+          document.getElementById("followBtn").innerHTML = "取消追蹤";
+          j = 1;
+      } else {
+          document.getElementById("followBtn").innerHTML = "追蹤";
+          j = 0;
+      }
+
+  });
+
+  </script>
+
+</body>
+
+</html>
