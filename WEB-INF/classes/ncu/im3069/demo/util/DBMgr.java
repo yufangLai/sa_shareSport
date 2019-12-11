@@ -24,12 +24,12 @@ public class DBMgr {
     /** DB_URL常數，指定資料庫所在之IP或網域、Port號碼與指定所要使用資料庫 */
 //    static final String DB_URL = "jdbc:mysql://localhost:3306/missa";
     static final String DB_URL = "jdbc:mysql://localhost:3306/sa_sharesport";
-    
+//    static final String DB_URL = "jdbc:mysql://localhost:3306/sasharesport";
     /** USER常數，所要使用之資料庫使用者帳號 */
     static final String USER = "root";
     
     /** PASS常數，所有使用之資料庫使用者密碼 */
-    static final String PASS = "root";
+    static final String PASS = "123456";
     
     /** 靜態指定所要使用之Class名稱 **/
     static {
