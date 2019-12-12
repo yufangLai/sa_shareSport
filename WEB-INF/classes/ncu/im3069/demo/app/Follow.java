@@ -21,6 +21,10 @@ public class Follow{
     	this.follows_student_id = follows_student_id;
     	this.follows_coach_id = follows_coach_id;
     }
+    public Follow(int follows_student_id, int follows_coach_id) {
+    	this.follows_student_id = follows_student_id;
+    	this.follows_coach_id = follows_coach_id;
+    }
     private int getId() {
 		return this.id;
 	}
