@@ -264,11 +264,10 @@ public class FollowHelper {
     /**
      * 檢查該名學生是否已經追蹤過該教練
      *
-     * @param c 一名教練之Coach物件
-     * @param s 一名學生之Student物件
+     * @param f 一筆追蹤之Follow物件
      * @return boolean 若重複追蹤回傳False，若該追蹤紀錄不存在則回傳True
      */
-    public boolean checkDuplicate(Student s, Coach c){
+    public boolean checkDuplicate(Follow f){
         /** 紀錄SQL總行數，若為「-1」代表資料庫檢索尚未完成 */
         int row = -1;
         /** 儲存JDBC檢索資料庫後回傳之結果，以 pointer 方式移動到下一筆資料 */
@@ -281,8 +280,8 @@ public class FollowHelper {
             String sql = "SELECT count(*) FROM `sa_sharesport`.`follows` WHERE `follows_student_id` = ? AND `follows_coach_id` = ?";
   
             /** 取得所需之參數 */
-            int coaId = c.getID();
-            int stuId = s.getID();
+            int coaId = f.getFollowsCoachId();
+            int stuId = f.getFollowsStudentId();
             
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);

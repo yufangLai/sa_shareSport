@@ -131,7 +131,7 @@ public class StudentHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "SELECT * FROM `sa_sharesport`.`students`";
+            String sql = "SELECT * FROM `sa_sharesport`.`students` WHERE status = 0";
             
             /** 將參數回填至SQL指令當中，若無則不用只需要執行 prepareStatement */
             pres = conn.prepareStatement(sql);
