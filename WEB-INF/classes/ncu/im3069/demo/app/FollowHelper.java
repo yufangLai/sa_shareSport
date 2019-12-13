@@ -189,7 +189,7 @@ public class FollowHelper {
      * @param id 追蹤編號
      * @return the JSON object 回傳SQL執行結果與該追蹤編號之追蹤資料
      */
-    public JSONObject getByID(String id) {
+    public JSONObject getByID(String stuId) {
         /** 新建一個 Follow 物件之 f 變數，用於紀錄每一筆查詢回之追蹤資料 */
     	Follow f = null;
         /** 用於儲存所有檢索回之教練，以JSONArray方式儲存 */
@@ -207,11 +207,11 @@ public class FollowHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "SELECT * FROM `sa_sharesport`.`follows` WHERE `id` = ? LIMIT 1";
+            String sql = "SELECT * FROM `sa_sharesport`.`follows` WHERE `follows_student_id` = ? LIMIT 1";
             
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
-            pres.setString(1, id);
+            pres.setString(1, stuId);
             /** 執行查詢之SQL指令並記錄其回傳之資料 */
             rs = pres.executeQuery();
 

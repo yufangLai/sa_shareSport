@@ -86,7 +86,7 @@ public class Coach {
      * @param password 教練密碼
      * @param name 教練姓名
      */
-    public Coach(int id, String email, String password, String name, String sex,String image,String information) {
+    public Coach(int id, String email, String password, String name, String sex,String image,String information, int status) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -95,7 +95,7 @@ public class Coach {
         this.image = image;
         this.information = information;
         this.modified = Timestamp.valueOf(LocalDateTime.now());
-     
+        this.status = status;
     }
     
     /**

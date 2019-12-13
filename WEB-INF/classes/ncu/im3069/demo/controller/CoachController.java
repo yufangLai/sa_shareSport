@@ -183,7 +183,7 @@ public class CoachController extends HttpServlet {
         int status = jso.getInt("status");
 
         /** 透過傳入之參數，新建一個以這些參數之教練Member物件 */
-        Coach c = new Coach(id, email, password, name, sex, image,information);
+        Coach c = new Coach(id, email, password, name, sex, image, information, status);
         
         /** 透過Member物件的update()方法至資料庫更新該名教練資料，回傳之資料為JSONObject物件 */
         JSONObject data = c.update();
