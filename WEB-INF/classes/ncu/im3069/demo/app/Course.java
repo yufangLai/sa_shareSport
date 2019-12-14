@@ -132,7 +132,7 @@ public class Course {
         jso.put("name", getName());
         jso.put("coach_id", getCoachID());
         jso.put("image", getImage());
-        jso.put("information", getImage());
+        jso.put("information", getInfo());
         jso.put("lower_limb", getLower());
         jso.put("core", getCore());
         jso.put("upper_limb", getUpper());

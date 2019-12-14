@@ -155,15 +155,15 @@ public class CourseHelper {
                 String name = rs.getString("name");
                 String image = rs.getString("image");
                 String information = rs.getString("information");
-                int upper_linb = rs.getInt("upper_linb");
+                int upper_limb = rs.getInt("upper_limb");
                 int core = rs.getInt("core");
-                int lower_linb = rs.getInt("lower_limb");
+                int lower_limb = rs.getInt("lower_limb");
                 Timestamp modified = rs.getTimestamp("modified");
                 Timestamp created = rs.getTimestamp("created");
                 int status = rs.getInt("status");
                 
                 /** 將每一筆教練資料產生一名新Coach物件 */
-                c = new Course(course_id,coach_id,name,information, upper_linb, lower_linb, core, image, status, created, modified);
+                c = new Course(course_id,coach_id,name,information, upper_limb, lower_limb, core, image, status, created, modified);
                 /** 取出該名教練之資料並封裝至 JSONsonArray 內 */
                 jsa.put(c.getData());
             }
@@ -218,10 +218,10 @@ public class CourseHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql1 = "SELECT * FROM `sa_sharesport`.`courses` WHERE `id` = ? LIMIT 1";
+            String sql = "SELECT * FROM `sa_sharesport`.`courses` WHERE `id` = ? LIMIT 1";
          
             /** 將參數回填至SQL指令當中 */
-            pres = conn.prepareStatement(sql1);   
+            pres = conn.prepareStatement(sql);   
             pres.setString(1, id);
    
             /** 執行查詢之SQL指令並記錄其回傳之資料 */
@@ -243,7 +243,7 @@ public class CourseHelper {
                 String name = rs.getString("name");
                 String image = rs.getString("image");
                 String information = rs.getString("information");
-                int upper_limb = rs.getInt("upper_linb");
+                int upper_limb = rs.getInt("upper_limb");
                 int core = rs.getInt("core");
                 int lower_limb = rs.getInt("lower_limb");
                 Timestamp modified = rs.getTimestamp("modified");
@@ -404,7 +404,7 @@ public class CourseHelper {
             pres.setInt(5, lower_limb);
             pres.setInt(6, core);
             pres.setInt(7, status);
-            pres.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now()));
+            pres.setTimestamp(8, modified);
             pres.setInt(9, id);
     
             /** 執行更新之SQL指令並記錄影響之行數 */

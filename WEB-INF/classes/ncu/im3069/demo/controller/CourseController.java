@@ -52,7 +52,7 @@ public class CourseController extends HttpServlet {
         String name = jso.getString("name");
         String image =jso.getString("image");
         String information = jso.getString("information");
-        int upper_limb = jso.getInt("upper_linb");
+        int upper_limb = jso.getInt("upper_limb");
         int core = jso.getInt("core");
         int lower_limb =jso.getInt("lower_limb");
         
@@ -187,7 +187,7 @@ public class CourseController extends HttpServlet {
         /** 新建一個JSONObject用於將回傳之資料進行封裝 */
         JSONObject resp = new JSONObject();
         resp.put("status", "200");
-        resp.put("message", "成功! 更新學生資料...");
+        resp.put("message", "成功更新教程資料! ");
         resp.put("response", data);
         
         /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
