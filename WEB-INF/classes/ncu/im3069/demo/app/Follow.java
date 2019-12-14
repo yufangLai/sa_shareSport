@@ -8,31 +8,33 @@ import org.json.*;
 
 public class Follow{
 	private int id;
-	private int follows_student_id;
-	private int follows_coach_id;
+	private int follstuId;
+	private int follcoaId;
 	private JSONObject studentName;
 	private JSONObject coachName;
 
 	private StudentHelper stuh =  StudentHelper.getHelper();
 	private CoachHelper coah =  CoachHelper.getHelper();
-
-    public Follow(int id, int follows_student_id, int follows_coach_id) {
+	
+	/*建構子*/
+    public Follow(int id, int follstuId, int follcoaId) {
     	this.id = id; 
-    	this.follows_student_id = follows_student_id;
-    	this.follows_coach_id = follows_coach_id;
+    	this.follstuId = follstuId;
+    	this.follcoaId = follcoaId;
     }
-    public Follow(int follows_student_id, int follows_coach_id) {
-    	this.follows_student_id = follows_student_id;
-    	this.follows_coach_id = follows_coach_id;
+    public Follow(int follstuId, int follcoaId) {
+    	this.follstuId = follstuId;
+    	this.follcoaId = follcoaId;
     }
+    
     private int getId() {
 		return this.id;
 	}
     public int getFollowsStudentId() {
-        return this.follows_student_id;
+        return this.follstuId;
     }
     public int getFollowsCoachId() {
-        return this.follows_coach_id;
+        return this.follcoaId;
     }
 
     public JSONObject getStudentName(int stuId) {
@@ -46,17 +48,17 @@ public class Follow{
         return coachName;
     }
     /**
-     * 取得該名教練所有資料
+     * 取得該追蹤紀錄的所有資料
      *
-     * @return the data 取得該名教練之所有資料並封裝於JSONObject物件內
+     * @return the data 取得該追蹤紀錄的所有資料並封裝於JSONObject物件內
      */
     public JSONObject getData() {
         /** 透過JSONObject將該名教練所需之資料全部進行封裝*/ 
         JSONObject jso = new JSONObject();
         jso.put("id", getId());
-        jso.put("follows_student_id", getFollowsStudentId());
+        jso.put("foll_stuId", getFollowsStudentId());
         jso.put("student_name", getStudentName(getFollowsStudentId()));
-        jso.put("follows_coach_id", getFollowsCoachId());
+        jso.put("foll_coaId", getFollowsCoachId());
         jso.put("coach_name", getCoachName(getFollowsCoachId()));
         return jso;
     }
@@ -64,7 +66,7 @@ public class Follow{
     public JSONObject getCoachFollowData() {
         JSONObject jso = new JSONObject();
         jso.put("id", getId());
-        jso.put("follows_student_id", getFollowsStudentId());
+        jso.put("foll_stuId", getFollowsStudentId());
         jso.put("student_name", getStudentName(getFollowsStudentId()));
         return jso;
     }
@@ -73,7 +75,7 @@ public class Follow{
     public JSONObject getStudentFollowData() {
         JSONObject jso = new JSONObject();
         jso.put("id", getId());
-        jso.put("follows_coach_id", getFollowsCoachId());
+        jso.put("foll_coaId", getFollowsCoachId());
         jso.put("coach_name", getCoachName(getFollowsCoachId()));
         return jso;
     }

@@ -8,27 +8,28 @@ import javax.servlet.http.*;
 import org.json.*;
 
 import ncu.im3069.demo.app.Follow;
-import ncu.im3069.demo.app.FollowHelper;
+import ncu.im3069.demo.app.Subscribe;
+import ncu.im3069.demo.app.SubscribeHelper;
 import ncu.im3069.tools.JsonReader;
 
 // TODO: Auto-generated Javadoc
 /**
  * <p>
- * The Class FollowController<br>
- * FollowController類別（class）主要用於處理Follow相關之Http請求（Request），繼承HttpServlet
+ * The Class SubscribeController<br>
+ * SubscribeController類別（class）主要用於處理Subscribe相關之Http請求（Request），繼承HttpServlet
  * </p>
  * 
  * @author IPLab
  * @version 1.0.0
  * @since 1.0.0
  */
-@WebServlet("/api/follow.do")
-public class FollowController extends HttpServlet {
+@WebServlet("/api/subscribe.do")
+public class SubscribeController extends HttpServlet {
 	/** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
     
-    /** fh，FollowHelper之物件與Follow相關之資料庫方法（Sigleton） */
-    private FollowHelper fh =  FollowHelper.getHelper();
+    /** subh，SubscribeHelper之物件與Follow相關之資料庫方法（Sigleton） */
+    private SubscribeHelper subh =  SubscribeHelper.getHelper();
     
     /**
      * 處理Http Method請求POST方法（新增資料）
@@ -45,21 +46,21 @@ public class FollowController extends HttpServlet {
         JSONObject jso = jsr.getObject();
         
         /** 取出經解析到JSONObject之Request參數 */
-        int stuId = jso.getInt("foll_stuId");
-        int coaId = jso.getInt("foll_coaId ");
+        int stuId = jso.getInt("sub_stuId");
+        int courId = jso.getInt("sub_courId ");
         
-        /** 建立一個新的追蹤物件 */
-        Follow f = new Follow(stuId, coaId);
+        /** 建立一個新的訂閱物件 */
+        Subscribe s = new Subscribe(stuId, courId);
         
-        /** 透過FollowHelper物件的checkDuplicate()檢查該追蹤紀錄是否有重複 */
-        if (!fh.checkDuplicate(f)) {
-            /** 透過FollowHelper物件的create()方法新建一筆追蹤紀錄至資料庫 */
-            JSONObject data = fh.create(f);
+        /** 透過SubscribeHelper物件的checkDuplicate()檢查該訂閱紀錄是否有重複 */
+        if (!subh.checkDuplicate(s)) {
+            /** 透過SubscribeHelper物件的create()方法新建一筆訂閱紀錄至資料庫 */
+            JSONObject data = subh.create(s);
             
             /** 新建一個JSONObject用於將回傳之資料進行封裝 */
             JSONObject resp = new JSONObject();
             resp.put("status", "200");
-            resp.put("message", "成功! 註冊教練資料...");
+            resp.put("message", "成功! 新增訂閱資料...");
             resp.put("response", data);
             
             /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
@@ -87,8 +88,8 @@ public class FollowController extends HttpServlet {
         /** 若直接透過前端AJAX之data以key=value之字串方式進行傳遞參數，可以直接由此方法取回資料 */
         String stuId = jsr.getParameter("foll_stuId");
         
-        /** 透過MemberHelper物件之getAll()方法取回所有追蹤之資料，回傳之資料為JSONObject物件 */
-        JSONObject query = fh.getByID(stuId);
+        /** 透過MemberHelper物件之getByID()方法取回該學生所有訂閱之資料，回傳之資料為JSONObject物件 */
+        JSONObject query = subh.getByID(stuId);
         
         /** 新建一個JSONObject用於將回傳之資料進行封裝 */
         JSONObject resp = new JSONObject();
@@ -116,8 +117,8 @@ public class FollowController extends HttpServlet {
         /** 取出經解析到JSONObject之Request參數 */
         int id = jso.getInt("id");
         
-        /** 透過MemberHelper物件的deleteByID()方法至資料庫刪除該名教練，回傳之資料為JSONObject物件 */
-        JSONObject query = fh.deleteByID(id);
+        /** 透過MemberHelper物件的deleteByID()方法至資料庫刪除該訂閱紀錄，回傳之資料為JSONObject物件 */
+        JSONObject query = subh.deleteByID(id);
         
         /** 新建一個JSONObject用於將回傳之資料進行封裝 */
         JSONObject resp = new JSONObject();
@@ -128,4 +129,8 @@ public class FollowController extends HttpServlet {
         /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
         jsr.response(resp, response);
     }
+    
+    
+    
+    
 }
