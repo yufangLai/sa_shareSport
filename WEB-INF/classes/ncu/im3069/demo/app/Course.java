@@ -65,7 +65,12 @@ public class Course {
 		this.created = created;
 	
 	}
-	
+	// 為了取得訂閱中的教程資訊 
+	public Course (int id, String name) {
+		this.id = id;
+		this.name = name;
+	}
+		
 	public int getID() {
 		return this.id;
 	}

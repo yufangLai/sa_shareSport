@@ -1,7 +1,6 @@
 package ncu.im3069.demo.app;
 
 import java.sql.*;
-import java.time.LocalDateTime;
 import org.json.*;
 
 import ncu.im3069.demo.util.DBMgr;
@@ -9,7 +8,7 @@ import ncu.im3069.demo.util.DBMgr;
 // TODO: Auto-generated Javadoc
 /**
  * <p>
- * The Class CoachHelper<br>
+ * The Class FollowHelper<br>
  * FollowHelper類別（class）主要管理所有與Follow相關與資料庫之方法（method）
  * </p>
  * 
@@ -149,11 +148,11 @@ public class FollowHelper {
 
                 /** 將 ResultSet 之資料取出 */
                 int follow_id = rs.getInt("id");
-                int follows_student_id = rs.getInt("follows_student_id");
-                int follows_coach_id = rs.getInt("follows_coach_id");
+                int foll_stuId = rs.getInt("foll_stuId");
+                int foll_coaId = rs.getInt("foll_coaId");
 
                 /** 將每一筆追蹤資料產生一名新Coach物件 */
-                f = new Follow(follow_id, follows_student_id, follows_coach_id);
+                f = new Follow(follow_id, foll_stuId, foll_coaId);
                 /** 取出該名追蹤之資料並封裝至 JSONsonArray 內 */
                 jsa.put(f.getData());
             }
@@ -184,15 +183,15 @@ public class FollowHelper {
         return response;
     }
     /**
-     * 透過追蹤編號（ID）取得追蹤資料
+     * 透過學生編號（ID）取得該學生的所有追蹤資料
      *
-     * @param id 追蹤編號
-     * @return the JSON object 回傳SQL執行結果與該追蹤編號之追蹤資料
+     * @param stuid 學生編號
+     * @return the JSON object 回傳SQL執行結果與該學生編號之所有該學生的追蹤資料
      */
     public JSONObject getByID(String stuId) {
         /** 新建一個 Follow 物件之 f 變數，用於紀錄每一筆查詢回之追蹤資料 */
     	Follow f = null;
-        /** 用於儲存所有檢索回之教練，以JSONArray方式儲存 */
+        /** 用於儲存所有檢索回之該學生追蹤資料，以JSONArray方式儲存 */
         JSONArray jsa = new JSONArray();
         /** 記錄實際執行之SQL指令 */
         String exexcute_sql = "";
@@ -227,11 +226,11 @@ public class FollowHelper {
                 
                 /** 將 ResultSet 之資料取出 */
                 int follow_id = rs.getInt("id");
-                int follows_student_id = rs.getInt("follows_student_id");
-                int follows_coach_id = rs.getInt("follows_coach_id");
+                int foll_stuId = rs.getInt("foll_stuId");
+                int foll_coaId = rs.getInt("foll_coaId");
                 
                 /** 將每一筆教練資料產生一名新Coach物件 */
-                f = new Follow(follow_id, follows_student_id, follows_coach_id);
+                f = new Follow(follow_id, foll_stuId, foll_coaId);
                 /** 取出該名教練之資料並封裝至 JSONsonArray 內 */
                 jsa.put(f.getData());
             }
@@ -280,13 +279,13 @@ public class FollowHelper {
             String sql = "SELECT count(*) FROM `sa_sharesport`.`follows` WHERE `follows_student_id` = ? AND `follows_coach_id` = ?";
   
             /** 取得所需之參數 */
-            int coaId = f.getFollowsCoachId();
             int stuId = f.getFollowsStudentId();
-            
+            int coaId = f.getFollowsCoachId();
+
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
-            pres.setInt(1, coaId);
-            pres.setInt(2, stuId);
+            pres.setInt(1, stuId);
+            pres.setInt(2, coaId);
             
             /** 執行查詢之SQL指令並記錄其回傳之資料 */
             rs = pres.executeQuery();
