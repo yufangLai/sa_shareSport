@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<meta charset="BIG5">
+<title>修改個人資料</title>
+<style>
+	{
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin-top: 2px;
+    margin-bottom: 2px;
+    margin-left: 27px;
+    margin-right: 27px;
+    padding: 0px;
+}
+.nav {
+    font-size: 20px;
+    margin-bottom: 25px;
+}
+.form-group{
+	width: 600px;
+}
+</style>
+</head>
+<body>
+	<nav class="nav" style="background-color: #e3f2fd;">
+  <a class="navbar-brand" href="#">shareSport</a>
+    <ul class="nav justify-content-end">
+    <li class="nav-item">
+    	<a class="nav-link active" href="#">首頁</a>
+  	</li>
+  	<li class="nav-item">
+    	<a class="nav-link active" href="#">瀏覽教練</a>
+  	</li>
+  	<li class="nav-item">
+    	<a class="nav-link active" href="#">瀏覽教練</a>
+  	</li>
+  	<li class="nav-item">
+    	<a class="nav-link active" href="#">個人專區</a>
+  	</li>
+  	<li class="nav-item">
+    	<a class="nav-link active" href="#">管理介面</a>
+  	</li>
+  	<li class="nav-item">
+    	<a class="nav-link active" id="sign" href="#">登入</a>
+  	</li>
+  	<li class="nav-item">
+    	<a class="nav-link active" href="#">註冊</a>
+  	</li>
+   </ul>
+  
+</nav>
+	<form>
+		<div class="form-group pic">
+    		<label for="exampleFormControlFile1">個人照片</label>
+    		<input type="file" class="form-control-file" >
+  		</div>
+  		<div class="form-group">
+    		<label for="coachName">名稱</label>
+    		<input type="text" id = "coachName" class="form-control name">
+    		<small  class="form-text text-muted">長度為30字 可接受中英文字符</small>
+  		</div>
+  		<div class="form-group " style= "width:80px">
+     		<label for="coachSex">性別</label>
+      		<select id="coachSex" class="form-control">
+       			<option selected disabled hidden id="selectedSex">...</option>
+        		<option value="female">女</option>
+        		<option value="male">男</option>
+      		</select>
+    	</div>
+  		<div class="form-group">
+  			<label for="disabledEmail">Email</label>
+      		<input type="email" id="disabledEmail" class="form-control" placeholder="email@example.com" disabled>
+  		</div> 
+  		<div class="form-group">
+    		<label for="coachPassword">密碼</label>
+    		<input type="password" id = "coachPassword" class="form-control password" >
+    		<small  class="form-text text-muted">僅接受英文或數字 不可為空白鍵</small>
+  		</div>
+  		<div class="form-group">
+    		<label for="coachPasswordcheck">確認密碼</label>
+    		<input type="password" id = "coachPasswordcheck" class="form-control passwordtest" >
+    		<small  class="form-text text-muted">請再輸入一次密碼</small>
+  		</div>
+  		<div class="form-group">
+    		<label for="coachTextarea">個人簡介</label>
+    		<textarea class="form-control" id="coachTextarea" rows="3"></textarea>
+  		</div>
+  		<button type="submit" class="btn btn-primary" id = "submit">儲存</button>
+</form>
+</body>
+<script>
+	var url_string = window.location.href;
+	var url = new URL(url_string);
+	var id = url.searchParams.get("id");
+	var sql_num = 0;
+	
+		
+	function updateCoach(id) {
+	    var name = $('#coachName').val();
+	    var email = $('#disabledEmail').val();
+	    var password = $('#coachPassword').val();
+	    var sex = $("#coachSex :selected").val();
+	
+	    var password_rule = /^.[A-Za-z0-9]+$/;
+	
+	    if(!password_rule.test(password)) {
+	        alert("密碼格式不符，僅接受英文或數字 不可為空白鍵！");
+	    }
+	    else {
+	        // 將資料組成JSON格式
+	        var data_object = {
+	            "id": id,
+	            "name": name,
+	            "email": email,
+	            "password": password,
+	            "sex": sex
+	        };
+	
+	        // 將JSON格式轉換成字串
+	        var data_string = JSON.stringify(data_object);
+	
+	        // 發出POST的PUT請求
+	        $.ajax({
+	                type: "PUT",
+	                url: "/api/coach.do",
+	                data: data_string,
+	                crossDomain: true,
+	                cache: false,
+	                dataType: 'json',
+	                timeout: 5000,
+	                success: function (response) {
+	                    $('#flashMessage').html(response.message);
+	                    $('#flashMessage').show();
+	                    if(response.status == 200){
+	                        //updateSQLTable(response.response);
+	                        getCoach();
+	                    }
+	                },
+	                error: function () {
+	                    alert("無法連線到伺服器！");
+	                }
+	        });
+	    }
+	}
+	
+	   function getCoach() {
+	       $.ajax({
+	           type: "GET",
+	           url: "/api/coach.do",
+	           crossDomain: true,
+	           data: "id=" + id,
+	           cache: false,
+	           dataType: 'json',
+	           timeout: 5000,
+	           success: function (response) {
+	               if(response.status == 200){
+	               	//updateSQLTable(response.response);
+	               	document.getElementById('coachName').value = response['response']['data'][0]['name'];
+	               	document.getElementById('disabledEmail').value = response['response']['data'][0]['email'];
+	               	document.getElementById('coachPassword').value = response['response']['data'][0]['password'];
+	               	document.getElementById('coachPasswordcheck').value = response['response']['data'][0]['password'];
+	               	document.getElementById('selectedSex').value = response['response']['data'][0]['sex'];
+	               	//document.getElementById('member_login_times').value = response['response']['data'][0]['login_times'];
+	               	//document.getElementById('member_status').value = response['response']['data'][0]['status'];
+	               }
+	               console.log(response);
+	           },
+	           error: function () {
+	               alert("無法連線到伺服器！");
+	           }
+	       });
+	   }
+	   $('#submit').click(function() {
+	       updateCoach(id)
+	   });
+	   
+	   $(document).ready(function() {
+	   	// 發出GET的AJAX請求取得原本該會員的資料
+	    	//$("#sql_log > tbody").empty();
+	       getCoach();
+	   });
+	
+	var i = 0;//控制登入登出
+	$("#sign").click(function () {
+	    if (i == 0) {
+	        document.getElementById("sign").innerHTML = "登出";
+	        i = 1;
+	    } else {
+	        document.getElementById("sign").innerHTML = "登入";
+	        i = 0;
+	    }
+	});
+</script>
+</html>
