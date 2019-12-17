@@ -494,7 +494,7 @@ public class CoachHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "Update `sa_sharesport`.`coaches` SET `name` = ? ,`password` = ? ,`sex` = ?, `email` = ?,`image` = ?,`information` = ?, `modified` = ,`status` =? WHERE `id` = ?";
+            String sql = "Update `sa_sharesport`.`coaches` SET `name` = ? ,`password` = ? ,`sex` = ?, `email` = ?,`image` = ?,`information` = ?, `modified` = ?,`status` =? WHERE `id` = ?";
             /** 取得所需之參數 */
             String name = c.getName();
             String email = c.getEmail();
