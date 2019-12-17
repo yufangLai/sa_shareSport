@@ -46,9 +46,8 @@ public class Product {
 	public String getDescribe() {
 		return this.describe;
 	}
-	
+	/** 透過JSONObject將該項產品所需之資料全部進行封裝*/ 
 	public JSONObject getData() {
-        /** 透過JSONObject將該項產品所需之資料全部進行封裝*/ 
         JSONObject jso = new JSONObject();
         jso.put("id", getID());
         jso.put("name", getName());

@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
+import javax.servlet.http.Cookie;
+
 import org.json.*;
 import ncu.im3069.demo.app.Student;
 import ncu.im3069.demo.app.StudentHelper;
@@ -94,7 +96,8 @@ public class StudentController extends HttpServlet {
      */
     public void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
-        /** 透過JsonReader類別將Request之JSON格式資料解析並取回 */
+       
+		/** 透過JsonReader類別將Request之JSON格式資料解析並取回 */
         JsonReader jsr = new JsonReader(request);
         /** 若直接透過前端AJAX之data以key=value之字串方式進行傳遞參數，可以直接由此方法取回資料 */
         String id = jsr.getParameter("id");

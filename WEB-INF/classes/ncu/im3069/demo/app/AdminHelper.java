@@ -390,5 +390,133 @@ public class AdminHelper {
 
         return response;
     }
+    /**
+     * 透過cookie email, password checkLogin管理員資料
+     *
+     * @param email 管理員編號
+     * @param password 管理員密碼
+     * @return the JSON object 回傳SQL執行結果與該管理員編號之管理員資料
+     */
+    public JSONObject getLogin(String email, String password) {
+        /** 新建一個 Admin 物件之 a 變數，用於紀錄每一位查詢回之管理員資料 */
+    	Admin a = null;
+        /** 用於儲存所有檢索回之管理員，以JSONArray方式儲存 */
+        JSONArray jsa = new JSONArray();
+        /** 記錄實際執行之SQL指令 */
+        String exexcute_sql = "";
+        /** 紀錄程式開始執行時間 */
+        long start_time = System.nanoTime();
+        /** 紀錄SQL總行數 */
+        int row = 0;
+        /** 儲存JDBC檢索資料庫後回傳之結果，以 pointer 方式移動到下一筆資料 */
+        ResultSet rs = null;
+        
+        try {
+            /** 取得資料庫之連線 */
+            conn = DBMgr.getConnection();
+            /** SQL指令 */
+            String sql = "SELECT * FROM `sa_sharesport`.`admins` WHERE `email` = ?  and `password` = ? LIMIT 1";
+            
+            /** 將參數回填至SQL指令當中 */
+            pres = conn.prepareStatement(sql);
+            pres.setString(1, email);
+            pres.setString(2, password);
+            /** 執行查詢之SQL指令並記錄其回傳之資料 */
+            rs = pres.executeQuery();
 
+            /** 紀錄真實執行的SQL指令，並印出 **/
+            exexcute_sql = pres.toString();
+            System.out.println(exexcute_sql);
+            
+            /** 透過 while 迴圈移動pointer，取得每一筆回傳資料 */
+            /** 正確來說資料庫只會有一筆該學生編號之資料，因此其實可以不用使用 while 迴圈 */
+            while(rs.next()) {
+                /** 每執行一次迴圈表示有一筆資料 */
+                row += 1;
+                
+                /** 將 ResultSet 之資料取出 */
+                int admin_id = rs.getInt("id");
+                String name = rs.getString("name");
+                int status = rs.getInt("status");
+                
+                /** 將每一筆教練資料產生一名新Member物件 */
+                a = new Admin(admin_id,email, password,name,status);
+                /** 取出該名教練之資料並封裝至 JSONsonArray 內 */
+                jsa.put(a.getData());
+            }
+            
+        } catch (SQLException e) {
+            /** 印出JDBC SQL指令錯誤 **/
+            System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
+        } catch (Exception e) {
+            /** 若錯誤則印出錯誤訊息 */
+            e.printStackTrace();
+        } finally {
+            /** 關閉連線並釋放所有資料庫相關之資源 **/
+            DBMgr.close(rs, pres, conn);
+        }
+        
+        /** 紀錄程式結束執行時間 */
+        long end_time = System.nanoTime();
+        /** 紀錄程式執行時間 */
+        long duration = (end_time - start_time);
+        
+        /** 將SQL指令、花費時間、影響行數與所有教練資料之JSONArray，封裝成JSONObject回傳 */
+        JSONObject response = new JSONObject();
+        response.put("sql", exexcute_sql);
+        response.put("row", row);
+        response.put("time", duration);
+        response.put("data", jsa);
+
+        return response;
+    } 
+    /**
+     * 檢查該名管理員之電子郵件信箱是否重複註冊
+     *
+     * @param a 一名管理員之Admin物件
+     * @return boolean 若重複註冊回傳False，若該信箱不存在則回傳True
+     */
+    public boolean checkLogin(String email, String password){
+        /** 紀錄SQL總行數，若為「-1」代表資料庫檢索尚未完成 */
+        int row = -1;
+        /** 儲存JDBC檢索資料庫後回傳之結果，以 pointer 方式移動到下一筆資料 */
+        ResultSet rs = null;
+        
+        try {
+            /** 取得資料庫之連線 */
+            conn = DBMgr.getConnection();
+            /** SQL指令 */
+            String sql = "SELECT * FROM `sa_sharesport`.`admins` WHERE `email` = ?  and `password` = ? LIMIT 1";
+            
+//            /** 取得所需之參數 */
+//            String email = a.getEmail();
+            
+            /** 將參數回填至SQL指令當中 */
+            pres = conn.prepareStatement(sql);
+            pres.setString(1, email);
+            pres.setString(2, password);
+            /** 執行查詢之SQL指令並記錄其回傳之資料 */
+            rs = pres.executeQuery();
+
+            /** 讓指標移往最後一列，取得目前有幾行在資料庫內 */
+            rs.next();
+            row = rs.getInt("count(*)");
+            System.out.print(row);
+
+        } catch (SQLException e) {
+            /** 印出JDBC SQL指令錯誤 **/
+            System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
+        } catch (Exception e) {
+            /** 若錯誤則印出錯誤訊息 */
+            e.printStackTrace();
+        } finally {
+            /** 關閉連線並釋放所有資料庫相關之資源 **/
+            DBMgr.close(rs, pres, conn);
+        }
+        /** 
+         	* 判斷是否有管理員之資料 
+         	* 若無一筆則回傳False，否則回傳True 
+         */
+        return (row == 0) ? false : true;
+    }
 }
