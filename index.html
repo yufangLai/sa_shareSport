@@ -17,6 +17,7 @@
             <h1><a href="http://cakephp.org/">CakePHP: the rapid development php framework</a></h1>
         </div>
         <div id="content">
+			<br>
             <h2>會員清單</h2>
             <a href="register.html">新增會員</a>
             <a href="product.html">購物車模組</a>
@@ -93,7 +94,24 @@
                             }
                     });
                 }
-                
+                //拿cookie
+                function getCookie() {
+                    // 發出POST的GET請求取得cookie
+                    $.ajax({
+                            type: "GET",
+                            url: "api/login.do",
+                            crossDomain: true,
+                            cache: false,
+                            dataType: 'json',
+                            timeout: 5000,
+                            success: function (response) {
+                                console.log(response);
+                            },
+                            error: function () {
+                                alert("無法連線到伺服器！");
+                            }
+                    });
+                }
                 // 更新會員列表表格
                 function updateTable(data) {
                     $("#table > tbody").empty();
@@ -133,6 +151,7 @@
                 }
                 $(document).ready(function() {
                     getAllMember();
+                    getCookie();
                 });
             </script>
         </div>
