@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>shareSport</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="teachinglist.css" crossorigin="anonymous">
+<style>
+.nav {
+    font-size: 20px;
+    margin-bottom: 25px;
+}
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin-top: 2px;
+    margin-bottom: 2px;
+    margin-left: 27px;
+    margin-right: 27px;
+
+    padding: 0px;
+}
+</style>
+</head>
+<body>
+<nav class="nav" style="background-color: #e3f2fd;">
+    <a class="navbar-brand" href="#">shareSport</a>
+      <ul class="nav justify-content-end">
+      <li class="nav-item">
+       <a class="nav-link active" href="#">首頁</a>
+     </li>
+     <li class="nav-item">
+       <a class="nav-link active" href="#">瀏覽教練</a>
+     </li>
+     <li class="nav-item">
+       <a class="nav-link active" href="#">瀏覽教練</a>
+     </li>
+     <li class="nav-item">
+       <a class="nav-link active" href="#">個人專區</a>
+     </li>
+     <li class="nav-item">
+       <a class="nav-link active" href="#">管理介面</a>
+     </li>
+     <li class="nav-item">
+       <a class="nav-link active" id="sign" href="#">登入</a>
+     </li>
+     <li class="nav-item">
+       <a class="nav-link active" href="#">註冊</a>
+     </li>
+     </ul>
+    
+  </nav>
+    <ul class="nav justify-content-center">
+        <li class="nav-item">
+          <a class="nav-link active" href="#">管理員列表</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">管理學生列表</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">管理教練列表</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">管理教程列表</a>
+          </li>
+      </ul>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">編號</th>
+            <th scope="col">教程名稱</th>
+            <th scope="col">教練</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>腹肌訓練</td>
+            <td>劉潁璇</td>
+            <td><a id="chk9" class="btn btn-primary" href="#" role="button">封鎖</a></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <script src="teachinglist.js"></script>
+		
+	<script>
+	var i = 0;
+
+	$("#sign").click(function () {
+
+	    if (i == 0) {
+	        document.getElementById("sign").innerHTML = "登出";
+	        i = 1;
+	    } else {
+	        document.getElementById("sign").innerHTML = "登入";
+	        i = 0;
+	    }
+
+	});
+	
+	$("#chk9").click(function () {
+
+	    if (i == 0) {
+	        document.getElementById("chk9").innerHTML = "封鎖";
+	        i = 1;
+	    } else {
+	        document.getElementById("chk9").innerHTML = "解封";
+	        i = 0;
+	    }
+
+	});
+	</script>
+</body>
+</html>
