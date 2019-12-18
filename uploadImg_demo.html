@@ -18,7 +18,7 @@
 	</form>
 	<button id="confirm" type="button">confirm</button>
 	<script>   
-	  var id;
+	  var id,role;
 	  $("#upload").click(function() {
 			var formData = new FormData($('#uploadForm')[0]);
 			$.ajax({
@@ -42,6 +42,7 @@
 		  // put不能用getParameter 所以要傳object，後端才撈得到
 		  var data_object = {
                   "id": id,
+                  "role":role,
               };
 
               // 將JSON格式轉換成字串
@@ -76,7 +77,8 @@
                   }
                   console.log(response);
                   id = response.response.data[0].id ;
-                  console.log(id);
+                  role = response.role;
+                  console.log(role);
               },
               error: function () {
                   alert("無法連線到伺服器！");

@@ -641,7 +641,7 @@ public class CoachHelper {
      * @return the JSONObject 回傳SQL指令執行結果與執行之資料
      */
     public JSONObject saveImage(Coach c) {
-    	System.out.println("rererererer");
+
         /** 紀錄回傳之資料 */
         JSONArray jsa = new JSONArray();
         /** 記錄實際執行之SQL指令 */
@@ -660,7 +660,7 @@ public class CoachHelper {
             
             String image = c.getName();  //因為用同一個建構子取得 filePath 變成getName方法     
             int id = c.getID();
-            System.out.println("this is stringID"+id);
+
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
             pres.setString(1, image);

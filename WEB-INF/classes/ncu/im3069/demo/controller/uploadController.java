@@ -1,8 +1,6 @@
 package ncu.im3069.demo.controller;
 
 import java.io.*;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.servlet.*;
@@ -11,8 +9,7 @@ import javax.servlet.http.*;
 import org.json.*;
 
 import ncu.im3069.demo.app.Coach;
-import ncu.im3069.demo.app.Video;
-import ncu.im3069.demo.app.VideoHelper;
+import ncu.im3069.demo.app.Student;
 import ncu.im3069.tools.JsonReader;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -130,16 +127,23 @@ public class uploadController extends HttpServlet {
         
         /** 取出經解析到JSONObject之Request參數 */
         int id = jso.getInt("id");
-        /** 透過傳入之參數，新建一個以這些參數之教練Member物件 */
-        Coach c = new Coach(id,filePath);
-		
-        /** 透過Member物件的update()方法至資料庫更新該名教練資料，回傳之資料為JSONObject物件 */
-        JSONObject data = c.saveImg();
+        String role = jso.getString("role");
+        JSONObject data = null;
+        if(role.equals("coach")) {
+             /** 透過傳入之參數，新建一個以這些參數之教練物件 */
+             Coach c = new Coach(id,filePath);  		
+             /** 透過Coach物件的saveImg()方法至資料庫更新該名教練資料，回傳之資料為JSONObject物件 */
+             data = c.saveImg();
+        }else if(role.equals("student")) {
+        	 Student s = new Student(id,filePath);
+             data = s.saveImg();
+        }
+       
         
         /** 新建一個JSONObject用於將回傳之資料進行封裝 */
         JSONObject resp = new JSONObject();
         resp.put("status", "200");
-        resp.put("message", "成功! 更新教練照片");
+        resp.put("message", "成功! 更新照片");
         resp.put("response", data);
         
         /** 透過JsonReader物件回傳到前端（以JSONObject方式） */

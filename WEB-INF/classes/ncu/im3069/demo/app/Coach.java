@@ -22,7 +22,7 @@ public class Coach {
     
     /** id，教練編號 */
     private int id;
-    private String ID;
+
     /** email，教練電子郵件信箱 */
     private String email;
     
@@ -123,7 +123,7 @@ public class Coach {
     
     /**
      * 實例化（Instantiates）一個新的（new）Coach物件<br>
-     * 採用多載（overload）方法進行，此建構子用於查詢教練&儲存資料時，將每一筆資料新增為一個教練物件
+     * 採用多載（overload）方法進行，此建構子用於查詢教練&儲存照片資料時，將每一筆資料新增為一個教練物件
      *
      * @param id 教練編號
      * @param name 教練姓名
@@ -134,15 +134,6 @@ public class Coach {
     }
     
     /**
-     * 實例化（Instantiates）一個新的（new）Coach物件<br>
-     * 採用多載（overload）方法進行，此建構子用於儲存教練照片時，將每一筆資料新增為一個教練物件
-     *
-     */
-    public Coach(String ID, String filePath) {
-        this.ID = ID;
-        this.image = filePath;
-    }
-    /**
      * 取得教練之編號
      *
      * @return the id 回傳教練編號
@@ -150,11 +141,7 @@ public class Coach {
     public int getID() {
         return this.id;
     }
-    
-    public String getStringID() {
-    	System.out.print("im in getStringID");
-        return this.ID;      
-    }
+
     /**
      * 取得教練之電子郵件信箱
      *
