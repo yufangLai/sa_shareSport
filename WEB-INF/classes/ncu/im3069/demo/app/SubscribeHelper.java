@@ -314,10 +314,10 @@ public class SubscribeHelper {
     /**
      * 檢查該該教程被訂閱幾次
      *
-     * @param s 一筆訂閱之Subscribe物件
+     * @param courId String
      * @return int 回傳次數
      */
-    public int countSub(Subscribe s){
+    public int countSub(String courId){
         /** 紀錄SQL總行數，若為「-1」代表資料庫檢索尚未完成 */
         int row = -1;
         /** 儲存JDBC檢索資料庫後回傳之結果，以 pointer 方式移動到下一筆資料 */
@@ -330,11 +330,11 @@ public class SubscribeHelper {
             String sql = "SELECT count(*) FROM `sa_sharesport`.`subscribes` WHERE `subscribe_course_id` = ?";
   
             /** 取得所需之參數 */
-            int courId = s.getSubCourseId();
+//            int courId = s.getSubCourseId();
             
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
-            pres.setInt(1, courId);
+            pres.setString(1, courId);
             
             /** 執行查詢之SQL指令並記錄其回傳之資料 */
             rs = pres.executeQuery();
