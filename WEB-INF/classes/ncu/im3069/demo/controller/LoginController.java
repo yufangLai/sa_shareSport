@@ -73,13 +73,13 @@ public class LoginController extends HttpServlet {
 				nameCookie.setMaxAge(30*60);
 				response.addCookie(idCookie);
 				response.addCookie(nameCookie);
-				response.sendRedirect("/NCU_MIS_SA/index.html");
+				response.sendRedirect("/sa_shareSport/index.html");
 			}else{
 //				RequestDispatcher rd = getServletContext().getRequestDispatcher("/NCU_MIS_SA/index.html");
 //				PrintWriter out= response.getWriter();
 //				out.println("<font color=red>Either user name or password is wrong.</font>");
 //				rd.include(request, response);
-				response.sendRedirect("/NCU_MIS_SA/index.html");
+				response.sendRedirect("/sa_shareSport/index.html");
 				System.out.println("not correct");
 			}
 		}
@@ -103,9 +103,9 @@ public class LoginController extends HttpServlet {
 				nameCookie.setMaxAge(30*60);
 				response.addCookie(idCookie);
 				response.addCookie(nameCookie);
-				response.sendRedirect("/NCU_MIS_SA/index.html");
+				response.sendRedirect("/sa_shareSport/index.html");
 			}else{
-				RequestDispatcher rd = getServletContext().getRequestDispatcher("/NCU_MIS_SA/index.html");
+				RequestDispatcher rd = getServletContext().getRequestDispatcher("/sa_shareSport/index.html");
 				PrintWriter out= response.getWriter();
 				out.println("<font color=red>Either user name or password is wrong.</font>");
 				rd.include(request, response);
@@ -130,9 +130,9 @@ public class LoginController extends HttpServlet {
 				nameCookie.setMaxAge(30*60);
 				response.addCookie(idCookie);
 				response.addCookie(nameCookie);
-				response.sendRedirect("/NCU_MIS_SA/index.html");
+				response.sendRedirect("/sa_shareSport/index.html");
 			}else{
-				RequestDispatcher rd = getServletContext().getRequestDispatcher("/NCU_MIS_SA/index.html");
+				RequestDispatcher rd = getServletContext().getRequestDispatcher("/sa_shareSport/index.html");
 				PrintWriter out= response.getWriter();
 				out.println("<font color=red>Either user name or password is wrong.</font>");
 				rd.include(request, response);
@@ -154,7 +154,7 @@ public class LoginController extends HttpServlet {
 					if(cookie.getName().equals("id")) userId = cookie.getValue();
 				}
 			}
-			if(userId == null) response.sendRedirect("/NCU_MIS_SA/login.html");
+			if(userId == null) response.sendRedirect("/sa_shareSport/login.html");
 			
 			//System.out.println(userId);
 	       
