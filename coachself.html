@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html >
+<head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<meta charset="BIG5">
+<title>教練個人專區</title>
+
+
+<style>
+.modifythiscourse{
+  visibility: hidden;
+}
+.deleteCourse {
+  visibility: hidden;
+}
+.saveclass {
+  visibility: hidden;
+}
+.course{
+	width:13rem;
+	display: inline-block;
+	margin-bottom:33px;
+	margin-left:55px;
+}
+h2{
+	display: inline-block;
+}
+{
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin-top: 2px;
+    margin-bottom: 2px;
+    margin-left: 27px;
+    margin-right: 27px;
+    padding: 0px;
+}
+.nav {
+    font-size: 20px;
+    margin-bottom: 25px;
+}
+</style>
+</head>
+<body>
+<nav class="nav" style="background-color: #e3f2fd;">
+  <a class="navbar-brand" href="#">shareSport</a>
+    <ul class="nav justify-content-end">
+    <li class="nav-item">
+    	<a class="nav-link active" href="#">首頁</a>
+  	</li>
+  	<li class="nav-item">
+    	<a class="nav-link active" href="#">瀏覽教練</a>
+  	</li>
+  	<li class="nav-item">
+    	<a class="nav-link active" href="#">瀏覽教練</a>
+  	</li>
+  	<li class="nav-item">
+    	<a class="nav-link active" href="#">個人專區</a>
+  	</li>
+  	<li class="nav-item">
+    	<a class="nav-link active" href="#">管理介面</a>
+  	</li>
+  	<li class="nav-item">
+    	<a class="nav-link active" id="sign" href="#">登入</a>
+  	</li>
+  	<li class="nav-item">
+    	<a class="nav-link active" href="#">註冊</a>
+  	</li>
+   </ul>
+  
+</nav>
+
+ 
+	<div class="card mb-3"  style="max-width: 540px;">
+  		<div class="row no-gutters">
+	    	<div class="col-md-4">
+	      		<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTxDQcl1SA2jzxtsOqnl0eA-zF9p0JoDFZCALHVI25lqAdzR-Ec" 
+	      			 class="card-img" 
+	      			 alt="...">
+	    	</div>
+	    	<div class="col-md-8">
+				<div class="card-body">
+		        	<h2 id="coachName" class="card-title" ></h2>
+		        	<p id="coachTextarea" class="card-text"></p>
+		        	<p id ="coachFollows" class="card-text followers"><small class="text-muted"></small></p>
+		        	<a href="coachmodify.html?id=' + value['id'] + '" type="button" class="btn btn-outline-primary" >修改個人資料</a>
+		        	
+				</div>
+	    	</div>
+	  </div>
+	</div>
+	
+	<h2>我的教程 <span ></span></h2>
+		<button id ="modifyclass" type="button" class="btn btn-outline-primary " >管理教程</button>
+	    <button type="button" class="btn btn-outline-primary" >新增課程</button>
+	    <button  type="button" class="btn btn-outline-primary saveclass" >儲存</button><br>
+		
+			<div id="coursesPanel" ></div>
+		<script>
+		var url_string = window.location.href;
+		var url = new URL(url_string);
+		//var id = url.searchParams.get("id");
+		var sql_num = 0;
+		
+		var id=1;
+		   function getCoach() {
+		       $.ajax({
+		           type: "GET",
+		           url: "api/coach.do",
+		           crossDomain: true,
+		           data: "id="+id,
+		           cache: false,
+		           dataType: 'json',
+		           timeout: 5000,
+		           success: function (response) {
+		        	   
+		               if(response.status == 200){
+		               	//updateSQLTable(response.response);
+		               	document.getElementById('coachName').innerHTML = response['response']['data'][0]['name'];
+		                document.getElementById('coachTextarea').innerHTML = response['response']['data'][0]['information'];
+		                document.getElementById('coachFollows').innerHTML = "<small>追蹤人數"+response['response']['data'][0]['followers_count'];
+		               	}
+		               console.log(response);
+		           },
+		           error: function () {
+		               alert("無法連線到伺服器！");
+		           }
+		       });
+		   }
+		   
+		   function getCourse() {
+		       $.ajax({
+		           type: "GET",
+		           url: "api/course.do",
+		           crossDomain: true,
+		           data: "id="+id,
+		           cache: false,
+		           dataType: 'json',
+		           timeout: 5000,
+		           success: function (response) {
+		        	   console.log(response);
+		               if(response.status == 200){
+		            	   addCourses(response.response.data);
+		            	   isNumberKey();
+		               	
+		               	}
+		           },
+		           error: function () {
+		               alert("無法連線到伺服器！");
+		           }
+		       });
+		   }
+		   function isNumberKey(evt){
+		   $('.deleteCourse').click(function(){
+				alert("delete");
+				console.log("刪除"+this.id);
+				deleteCourse(this.id);
+			});
+		   };
+		            
+		   function addCourses(data) {
+			   var arrCoursesid = [];
+			   var courseAll = ""; 
+			  
+			   $.each(data,function(index, value){
+				   if(value['status']=="1"){//如果status =0則跳過
+					   //index++;
+					   return;         
+				   }
+				   //console.log(index);   
+               courseAll += ' <div class="card course">';
+               courseAll += ' <a href="該教程網址">';
+               courseAll += '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTxDQcl1SA2jzxtsOqnl0eA-zF9p0JoDFZCALHVI25lqAdzR-Ec" class="card-img-top" alt="..."  width="13rem" height="160rem">';
+               courseAll += '</a>';
+               courseAll += '<div class="card-body">';
+               courseAll += '<h5 id ="courseName" class="card-title">'+value['name']+'</h5>';
+               courseAll += '<p id ="courseTextarea" class="card-text">'+value['information']+'</p>';
+               courseAll += '<p id ="subscribe'+value['id']+'" class="card-text"><small class="text-muted">訂閱人數</small></p>';
+               courseAll += '<p hidden id ="status" class="card-text" ><small class="text-muted">'+value['status']+'</small></p>';
+               courseAll += '<p  id ="id" class="card-text" ><small class="text-muted">'+value['id']+'</small></p>';
+               courseAll += '<a href="#" class="btn btn-primary modifythiscourse" >修改教程</a>';
+               courseAll += '<button id="'+value['id']+'" type="button" name="deleteCourse" class="btn btn-primary deleteCourse" >刪除教程</button>';
+               courseAll += '</div>';
+               courseAll += '</div>';
+              
+               arrCoursesid.push(value['id']);
+			   })
+			  console.log(arrCoursesid);
+			 
+			  
+			  for(var i=0; i<arrCoursesid.length; i++) {
+				  getSubscribes(arrCoursesid[i]);
+				  //console.log(arrCoursesid[i]);
+				};
+				
+               	$("#coursesPanel").append(courseAll);
+				//return courseAll;
+           }
+		   
+		   function getSubscribes(id) {
+			   
+			   
+		       $.ajax({
+		           type: "GET",
+		           url: "api/subscribe.do",
+		           crossDomain: true,
+		           data: "id="+id,
+		           cache: false,
+		           dataType: 'json',
+		           timeout: 5000,
+		           success: function (response) {
+		        	   //console.log(response);
+		               if(response.status == 200){
+		            	   document.getElementById('subscribe'+id).innerHTML = "<small>追蹤人數"+response.count;
+		            	   console.log("id:"+id+" amount="+response.count);
+		               	}
+		               console.log(response);
+		           },
+		           error: function () {
+		               alert("無法連線到伺服器！");
+		           }
+		       });
+		   }
+		  
+		   function deleteCourse(id) {
+			// 將資料組成JSON格式
+		        var data_object = {
+		            "id": id,
+		            
+		        };
+		
+		        // 將JSON格式轉換成字串
+		        var data_string = JSON.stringify(data_object);
+		       $.ajax({
+		           type: "DELETE",
+		           url: "api/course.do",
+		           crossDomain: true,
+		           data: data_string,
+		           cache: false,
+		           dataType: 'json',
+		           timeout: 5000,
+		           success: function (response) {
+		        	   
+		               if(response.status == 200){
+		            	 	$("#coursesPanel").empty();
+		            	 	getCourse();
+		               	}
+		               console.log(response);
+		           },
+		           error: function () {
+		               alert("無法連線到伺服器！");
+		           }
+		       });
+		   }
+		   $(document).ready(function() {
+			       getCoach();
+			       getCourse();
+			   });
+		  
+		$("#modifyclass").click(function () {
+			$(".modifythiscourse").css("visibility","visible");
+			$(".deleteCourse").css("visibility","visible");
+			$(".saveclass").css("visibility","visible");
+		});
+			
+		$(".saveclass").click(function(){
+			$(".modifythiscourse").css("visibility","hidden");
+			$(".deleteCourse").css("visibility","hidden");
+			$(".saveclass").css("visibility","hidden");
+		});
+	        var i = 0;//控制登入登出
+	        $("#sign").click(function () {
+	            if (i == 0) {
+	                document.getElementById("sign").innerHTML = "登出";
+	                i = 1;
+	            } 
+	            else {
+	                document.getElementById("sign").innerHTML = "登入";
+	                i = 0;
+	            }
+	        });
+	</script>
+</body>
+</html>
