@@ -5,11 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>shareSport</title>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="student.css" crossorigin="anonymous">
 <style>
 .nav {
     font-size: 20px;
@@ -72,51 +71,96 @@ body {
             <a class="nav-link" href="#">管理教程列表</a>
           </li>
       </ul>
-      <table class="table">
+      <table id=StudentTable  class="table">
         <thead>
           <tr>
             <th scope="col">編號</th>
             <th scope="col">姓名</th>
             <th scope="col">帳號</th>
+            <th scope="col">性別</th>
+            <th scope="col">更新時間</th>
+            <th scope="col">功能</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>劉潁璇</td>
-            <td>eva87112460@gmail.com</td>
-            <td><a id="chk7" class="btn btn-primary" href="#" role="button">停權</a></td>
-          </tr>
         </tbody>
       </table>
-      <script src="student.js"></script>
 		
-	<script>
-	var i = 0;
-
-	$("#sign").click(function () {
-
-	    if (i == 0) {
-	        document.getElementById("sign").innerHTML = "登出";
-	        i = 1;
-	    } else {
-	        document.getElementById("sign").innerHTML = "登入";
-	        i = 0;
-	    }
-
-	});
+	<script type="text/javascript">
 	
-	$("#chk7").click(function () {
-
-	    if (i == 0) {
-	        document.getElementById("chk7").innerHTML = "停權";
-	        i = 1;
-	    } else {
-	        document.getElementById("chk7").innerHTML = "復權";
-	        i = 0;
-	    }
-
-	});
+	var sql_num = 0;
+    function deleteMember(id) {
+        var check = window.confirm("確認封鎖學生？");
+        if (check == true) {
+            console.log("你已按下確認!");
+            var request = {'id': id};
+            var data_string = JSON.stringify(request);
+            $.ajax({
+                type: "DELETE",
+                url: "api/student.do",
+                crossDomain: true,
+                data: data_string,
+                cache: false,
+                dataType: 'json',
+                timeout: 5000,
+                success: function (resp) {
+                    if(resp.status == 200){
+                        $("#flashMessage").html("會員移除成功");
+                        $("#flashMessage").show();
+                        getAllMember();
+                    }
+                    console.log(resp);
+                },
+                error: function () {
+                    alert("無法連線到伺服器！");
+                }
+            });
+        }
+        else {
+            console.log("你取消刪除此學生");
+        }
+    }
+    
+	function getAllMember(){
+		$.ajax({
+            type: "GET",
+            url: "api/student.do",
+            crossDomain: true,
+            cache: false,
+            dataType: 'json',
+            timeout: 5000,
+            success: function (resp) {
+                if(resp.status == 200){
+                	console.log(resp);
+                    updateStudentTable(resp.response.data);
+                    
+                }
+                console.log(resp);
+            },
+            error: function () {
+                alert("無法連線到伺服器！");
+            }
+    });
+}
+	
+	function updateStudentTable(data){
+		$("#StudentTable > tbody").empty();
+		var StudentTable_html='';
+		 $.each(data, function(index, value){
+			 StudentTable_html +='<tr><td scope="row">'+ value ['id'] + '</td>';
+			 StudentTable_html +='<td>' + value['name'] + '</td>';
+			 StudentTable_html +='<td>' + value['email'] + '</td>';
+			 StudentTable_html +='<td>' + value['sex'] + '</td>';
+			 StudentTable_html +='<td>' + value['modified'] + '</td>';
+			 StudentTable_html +='<td>' + '<a href="edit.html?id=' + value['id'] + '">編輯</a> | ';
+			 StudentTable_html +='<a href="javascript: deleteMember(' + value['id'] + ');">封鎖</a></td></tr>';
+		 })
+		 $("#StudentTable > tbody").append(StudentTable_html);
+	}
+	$(document).ready(function() {
+        getAllMember();
+    });
+	
 	</script>
 </body>
 </html>
