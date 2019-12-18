@@ -129,6 +129,22 @@ public class Course {
         return data;
     }
     
+	 /**
+     * 更新課程照片
+     *
+     * @return the JSON object 回傳SQL更新之結果與相關封裝之資料
+     */
+    public JSONObject saveImg() {
+        /** 新建一個JSONObject用以儲存更新後之資料 */
+        JSONObject data = new JSONObject();
+        /** 檢查該名課程是否已經在資料庫 */
+             
+            /** 透過MemberHelper物件，更新目前之課程資料置資料庫中 */
+        data = courh.saveImage(this);
+        
+        
+        return data;
+    }
 	
 	public JSONObject getData() {
         /** 透過JSONObject將該項產品所需之資料全部進行封裝*/ 

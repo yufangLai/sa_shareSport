@@ -111,7 +111,7 @@ public class Student {
     }
     /**
      * 實例化（Instantiates）一個新的（new）Member物件<br>
-     * 採用多載（overload）方法進行，此建構子用於查詢學生資料時，將每一筆資料新增為一個學生物件
+     * 採用多載（overload）方法進行，此建構子用於查詢學生資料&儲存照片時，將每一筆資料新增為一個學生物件
      *
      * @param id 學生編號
      * @param name 學生姓名
@@ -208,6 +208,25 @@ public class Student {
             /** 透過MemberHelper物件，更新目前之學生資料置資料庫中 */
             data = sh.update(this);
         }
+        
+        return data;
+    }
+    
+
+    /**
+     * 更新學生照片
+     *
+     * @return the JSON object 回傳SQL更新之結果與相關封裝之資料
+     */
+    public JSONObject saveImg() {
+        /** 新建一個JSONObject用以儲存更新後之資料 */
+        JSONObject data = new JSONObject();
+
+        /** 檢查該名學生是否已經在資料庫 */
+             
+            /** 透過MemberHelper物件，更新目前之學生資料置資料庫中 */
+        data = sh.saveImage(this);
+        
         
         return data;
     }
