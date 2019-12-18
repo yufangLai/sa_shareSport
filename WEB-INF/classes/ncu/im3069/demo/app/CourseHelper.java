@@ -218,7 +218,7 @@ public class CourseHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "SELECT * FROM `sa_sharesport`.`courses` WHERE `id` = ? LIMIT 1";
+            String sql = "SELECT * FROM `sa_sharesport`.`courses` WHERE `course_coach_id` = ? ";
          
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);   
