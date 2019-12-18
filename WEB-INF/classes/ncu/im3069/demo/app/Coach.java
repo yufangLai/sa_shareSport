@@ -22,7 +22,7 @@ public class Coach {
     
     /** id，教練編號 */
     private int id;
-    
+    private String ID;
     /** email，教練電子郵件信箱 */
     private String email;
     
@@ -120,9 +120,10 @@ public class Coach {
         this.followers_count = followers_count;
         this.status = status;
     }
+    
     /**
      * 實例化（Instantiates）一個新的（new）Coach物件<br>
-     * 採用多載（overload）方法進行，此建構子用於查詢教練資料時，將每一筆資料新增為一個教練物件
+     * 採用多載（overload）方法進行，此建構子用於查詢教練&儲存資料時，將每一筆資料新增為一個教練物件
      *
      * @param id 教練編號
      * @param name 教練姓名
@@ -130,6 +131,16 @@ public class Coach {
     public Coach(int id, String name) {
         this.id = id;
         this.name = name;
+    }
+    
+    /**
+     * 實例化（Instantiates）一個新的（new）Coach物件<br>
+     * 採用多載（overload）方法進行，此建構子用於儲存教練照片時，將每一筆資料新增為一個教練物件
+     *
+     */
+    public Coach(String ID, String filePath) {
+        this.ID = ID;
+        this.image = filePath;
     }
     /**
      * 取得教練之編號
@@ -139,7 +150,11 @@ public class Coach {
     public int getID() {
         return this.id;
     }
-
+    
+    public String getStringID() {
+    	System.out.print("im in getStringID");
+        return this.ID;      
+    }
     /**
      * 取得教練之電子郵件信箱
      *
@@ -235,6 +250,24 @@ public class Coach {
             /** 透過MemberHelper物件，更新目前之教練資料置資料庫中 */
             data = ch.update(this);
         }
+        
+        return data;
+    }
+    
+    /**
+     * 更新教練照片
+     *
+     * @return the JSON object 回傳SQL更新之結果與相關封裝之資料
+     */
+    public JSONObject saveImg() {
+        /** 新建一個JSONObject用以儲存更新後之資料 */
+        JSONObject data = new JSONObject();
+        System.out.print("this is saveImg");
+        /** 檢查該名教練是否已經在資料庫 */
+             
+            /** 透過MemberHelper物件，更新目前之教練資料置資料庫中 */
+        data = ch.saveImage(this);
+        
         
         return data;
     }
