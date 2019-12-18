@@ -107,8 +107,8 @@ body {
 		//var id = url.searchParams.get("id");
 		var sql_num = 0;
 		
-		var id=1;
-		   function getCoach() {
+		var id;
+		   function getCoach(id) {
 		       $.ajax({
 		           type: "GET",
 		           url: "api/coach.do",
@@ -133,7 +133,7 @@ body {
 		       });
 		   }
 		   
-		   function getCourse() {
+		   function getCourse(id) {
 		       $.ajax({
 		           type: "GET",
 		           url: "api/course.do",
@@ -145,6 +145,7 @@ body {
 		           success: function (response) {
 		        	   console.log(response);
 		               if(response.status == 200){
+		            	   console.log(response.response.data)
 		            	   addCourses(response.response.data);
 		            	   isNumberKey();
 		               	
@@ -258,8 +259,30 @@ body {
 		       });
 		   }
 		   $(document).ready(function() {
-			       getCoach();
-			       getCourse();
+			   
+					  $.ajax({
+			              type: "GET",
+			              url: "api/login.do",
+			              crossDomain: true,
+			              cache: false,
+			              dataType: 'json',
+			              timeout: 5000,
+			              success: function (response) {
+			                  if(response.status == 200){
+			                	 // console.log(response);
+			                  }
+			                  console.log(response);
+			                  id = response.response.data[0].id ;
+			                  console.log(id);
+			                  getCoach(id);
+						       getCourse(id);
+			              },
+			              error: function () {
+			                  alert("無法連線到伺服器！");
+			              }
+			      	   });
+				   console.log(id);
+			       
 			   });
 		  
 		$("#modifyclass").click(function () {
