@@ -5,11 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>shareSport</title>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="managerlist.css" crossorigin="anonymous">
 <style>
 .nav {
     font-size: 20px;
@@ -60,95 +59,123 @@ body {
       </nav>
     <ul class="nav justify-content-center">
         <li class="nav-item">
-          <a class="nav-link active" href="#">管理員列表</a>
+          <a id=AdminList class="nav-link active" href="#">管理員列表</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">管理學生列表</a>
+          <a id=StudentList class="nav-link" href="#">管理學生列表</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">管理教練列表</a>
+          <a id=CoachList class="nav-link" href="#">管理教練列表</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">管理教程列表</a>
+            <a id=CourseList class="nav-link" href="#">管理教程列表</a>
           </li>
       </ul>
-      <table class="table">
+      <table class="table" id="AdminsTable">
         <thead>
           <tr>
             <th scope="col">編號</th>
             <th scope="col">姓名</th>
             <th scope="col">帳號</th>
+            <th scope="col">更新時間</th>
+            <th scope="col">編輯</th>
+            <th scope="col">停權／復權</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>劉潁璇</td>
-            <td>eva87112460@gmail.com</td>
-            <td><a id="chk1" class="btn btn-primary" href="#" role="button">停權</a></td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>賴郁芳</td>
-            <td>michelle860903860930@gmail.com</td>
-            <td><a id="chk2" class="btn btn-primary" href="#" role="button">停權</a></td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>陳佑甄</td>
-            <td>annie@19990306@gmail.com</td>
-            <td><a id="chk3" class="btn btn-primary" href="#" role="button">停權</a></td>
-          </tr>
-          <tr>
-            <th scope="row">4</th>
-            <td>王佩晨</td>
-            <td>penny880514@gmail.com</td>
-            <td><a id="chk4" class="btn btn-primary" href="#" role="button">停權</a></td>
-          </tr>
-          <tr>
-            <th scope="row">5</th>
-            <td>鄭大融</td>
-            <td>sabrinas940126@gmail.com</td>
-            <td><a id="chk5" class="btn btn-primary" href="#" role="button">停權</a></td>
-          </tr>
-          <tr>
-            <th scope="row">6</th>
-            <td>鄭淇勻</td>
-            <td>a22177861@gmail.com</td>
-            <td><a id="chk6" class="btn btn-primary" href="#" role="button">停權</a></td>
-          </tr>
         </tbody>
       </table>
       <div align="center"><button type="button" class="btn btn-primary">新增管理員</button></div>
-
-      <script src="managerlist.js"></script>
 		
 	<script>
-	var i = 0;
-
-	$("#sign").click(function () {
-
-	    if (i == 0) {
-	        document.getElementById("sign").innerHTML = "登出";
-	        i = 1;
-	    } else {
-	        document.getElementById("sign").innerHTML = "登入";
-	        i = 0;
-	    }
-
+	
+	var sql_num = 0;
+    function deleteMember(id) {
+        var check = window.confirm("確認停權管理員？");
+        if (check == true) {
+            console.log("你已按下確認!");
+            var request = {'id': id};
+            var data_string = JSON.stringify(request);
+            $.ajax({
+                type: "DELETE",
+                url: "api/admin.do",
+                crossDomain: true,
+                data: data_string,
+                cache: false,
+                dataType: 'json',
+                timeout: 5000,
+                success: function (resp) {
+                    if(resp.status == 200){
+                        $("#flashMessage").html("管理員停權成功");
+                        $("#flashMessage").show();
+                        getAllMember();
+                    }
+                    console.log(resp);
+                },
+                error: function () {
+                    alert("無法連線到伺服器！");
+                }
+            });
+        }
+        else {
+            console.log("你取消停權此管理員");
+        }
+    }
+    
+	function getAllMember(){
+		$.ajax({
+            type: "GET",
+            url: "api/admin.do",
+            crossDomain: true,
+            cache: false,
+            dataType: 'json',
+            timeout: 5000,
+            success: function (resp) {
+                if(resp.status == 200){
+                	console.log(resp);
+                    updateAdminsTable(resp.response.data);
+                    
+                }
+                console.log(resp);
+            },
+            error: function () {
+                alert("無法連線到伺服器！");
+            }
+    });
+}
+	
+	function updateAdminsTable(data){
+		$("#AdminsTable > tbody").empty();
+		var AdminsTable_html='';
+		 $.each(data, function(index, value){
+			 AdminsTable_html +='<tr><td scope="row">'+ value ['id'] + '</td>';
+			 AdminsTable_html +='<td>' + value['name'] + '</td>';
+			 AdminsTable_html +='<td>' + value['email'] + '</td>';
+			 AdminsTable_html +='<td>' + value['modified'] + '</td>';
+			 AdminsTable_html +='<td>' + '<a class="btn btn-primary href="edit.html?id=' + value['id'] + '">編輯</a>'+'</td>';
+			 AdminsTable_html +='<td>'+'<a href="javascript: deleteMember(' + value['id'] + ');">停權</a></td></tr>';
+		 })
+		 $("#AdminsTable > tbody").append(AdminsTable_html);
+	}
+	$("#AdminList").click(function () {
+		location.href="managerlist.html";
 	});
 	
-	$("#chk1").click(function () {
-
-	    if (i == 0) {
-	        document.getElementById("chk1").innerHTML = "停權";
-	        i = 1;
-	    } else {
-	        document.getElementById("chk1").innerHTML = "復權";
-	        i = 0;
-	    }
-
+	$("#StudentList").click(function () {
+		location.href="studentlist.html";
 	});
+	
+	$("#CoachList").click(function () {
+		location.href="teacherlist.html";
+	});
+	
+	$("#CourseList").click(function () {
+		location.href="teachinglist.html";
+	});
+	$(document).ready(function() {
+        getAllMember();
+    });
+	
 </script>
 </body>
 </html>
