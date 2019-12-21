@@ -32,8 +32,9 @@ public class uploadController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	// 上傳檔案儲存目錄
-	private static final String UPLOAD_DIRECTORY = "upload";
+	private static final String UPLOAD_DIRECTORY = "git\\sa_shareSport\\statics\\img";
 	private String filePath = null;
+	private String fileName = null;
 	// 上傳配置
 	private static final int MEMORY_THRESHOLD = 1024 * 1024 * 3; // 3MB
 	private static final int MAX_FILE_SIZE = 1024 * 1024 * 40; // 40MB
@@ -68,10 +69,13 @@ public class uploadController extends HttpServlet {
 		upload.setSizeMax(MAX_REQUEST_SIZE);
 		// 構造臨時路徑來儲存上傳的檔案
 		// 這個路徑相對當前應用的目錄
-		String uploadPath = "C:"+ File.separator + UPLOAD_DIRECTORY;
-		
+		//String uploadPath = "."+ File.separator + UPLOAD_DIRECTORY;
+		System.out.println(System.getProperty("user.home"));
+		String uploadPath1 = System.getProperty("user.home")+ File.separator + UPLOAD_DIRECTORY;
+		//System.out.println(uploadPath1);
+		//String uploadPath =".\\image"+ File.separator + UPLOAD_DIRECTORY;
 		// 如果目錄不存在則建立
-		File uploadDir = new File(uploadPath);
+		File uploadDir = new File(uploadPath1);
 		if (!uploadDir.exists()) {
 			uploadDir.mkdir();
 		}
@@ -85,8 +89,8 @@ public class uploadController extends HttpServlet {
 				for (FileItem item : formItems) {
 					// 處理不在表單中的欄位
 					if (!item.isFormField()) {					
-						String fileName = new File(item.getName()).getName();
-						filePath = uploadPath + File.separator+ fileName;
+						fileName = new File(item.getName()).getName();
+						filePath = uploadPath1 + File.separator+ fileName;
 						
 //						JSONObject resp = new JSONObject();
 //						resp.put("status", "200");

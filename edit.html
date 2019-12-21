@@ -44,6 +44,10 @@
                     <label for="member_status">會員狀態</label>
                     <input name="status" type="text" id="member_status" disabled>
                 </div>
+                <div >
+                    
+                    <img id="picture" src="" alt="圖片載入失敗"/>
+                </div>
                 <div class="submit"><input type="button" value="更新" id="submit"></div>
             </form>
             <script type="text/javascript">
@@ -130,6 +134,8 @@
                         dataType: 'json',
                         timeout: 5000,
                         success: function (response) {
+                        	var str = response['response']['data'][0]['image'];
+                        	var name = str.substring(str.lastIndexOf("\\") + 1, str.length);
                             if(response.status == 200){
                             	updateSQLTable(response.response);
                             	document.getElementById('member_name').value = response['response']['data'][0]['name'];
@@ -137,6 +143,13 @@
                             	document.getElementById('member_password').value = response['response']['data'][0]['password'];
                             	document.getElementById('member_login_times').value = response['response']['data'][0]['login_times'];
                             	document.getElementById('member_status').value = response['response']['data'][0]['status'];
+                            	//document.getElementById("picture").src = response['response']['data'][0]['image'];
+                            	//document.getElementById("picture").src = "./statics/img/image.png"
+                            	console.log("statics/img/"+name)
+                            	var img = "./statics/img/"+name
+                            	document.getElementById("picture").src = img
+                                
+                            
                             }
                             console.log(response);
                         },
@@ -154,6 +167,7 @@
                 	// 發出GET的AJAX請求取得原本該會員的資料
                  	$("#sql_log > tbody").empty();
                     getMember();
+                   
                 });
             </script>
         </div>
