@@ -205,7 +205,7 @@ public class SubscribeHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "SELECT * FROM `sa_sharesport`.`subscribes` WHERE `subscribe_student_id` = ? LIMIT 1";
+            String sql = "SELECT * FROM `sa_sharesport`.`subscribes` WHERE `subscribe_student_id` = ?";
             
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
@@ -227,7 +227,7 @@ public class SubscribeHelper {
                 int subscribe_id = rs.getInt("id");
                 int sub_stuId = rs.getInt("subscribe_student_id");
                 int sub_courId = rs.getInt("subscribe_course_id");
-                System.out.println(sub_courId);
+//                System.out.println(sub_courId);
                 /** 將每一筆訂閱資料產生一名新SubscribeCoach物件 */
                 s = new Subscribe(subscribe_id, sub_stuId, sub_courId);
                 /** 取出該名訂閱之資料並封裝至 JSONsonArray 內 */
