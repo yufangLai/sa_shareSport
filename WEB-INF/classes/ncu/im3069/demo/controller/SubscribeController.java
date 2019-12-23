@@ -102,7 +102,7 @@ public class SubscribeController extends HttpServlet {
         /** 新建一個JSONObject用於將回傳之資料進行封裝 */
         JSONObject resp = new JSONObject();
         resp.put("status", "200");
-        resp.put("message", "所有追蹤資料取得成功");
+        resp.put("message", "所有訂閱資料取得成功");
         resp.put("response", query);
         resp.put("count", count);
         
