@@ -116,8 +116,8 @@ public class Student {
      * @param id 學生編號
      * @param name 學生姓名
      */
-    public Student(int id, String name) {
-        this.id = id;
+    public Student(String name) {
+//        this.id = id;
         this.name = name;
     }
     /**
@@ -252,5 +252,13 @@ public class Student {
         return jso;
     }
     
+    //for student getting subscribe
+  	public JSONObject getSubData() {
+          /** 透過JSONObject將該項產品所需之資料全部進行封裝*/ 
+          JSONObject jso = new JSONObject(); 
+          jso.put("name", getName());
+   
+          return jso;
+      }
  
 }
